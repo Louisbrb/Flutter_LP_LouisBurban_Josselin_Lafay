@@ -7,35 +7,37 @@ class SecondPage extends StatelessWidget{
     Map args = ModalRoute.of(context).settings.arguments;
     List<Widget> elements = new List<Widget>();
 
-    for(var tmp in args['venue']['location']['formattedAddress']){
-      elements.add(Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Text(tmp),
-      ));
-    }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(args['venue']['name']),
+        title: Text(args['name']),
       ),
       body: Container(
         child: ListView(
           children: <Widget>[
-            args['venue']['location']['address']!=null?Card(
-              child: Row(
+               Row(
                 children: <Widget>[
-                  IconButton(
-                    color: Colors.blue,
-                    onPressed: (){},
-                    icon: Icon(Icons.room),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: elements,
-                  )
-                ],
-              ),
-            ):Text('Pas d adresse valide'),
+                  Text('Nom : ' + args['name']+'\n')
+                ]
+                ),
+                Row(
+                    children: <Widget>[
+                      Text('Adresse : ' + args['location']['address'] + '\n'),
+                    ]
+                ),
+            Row(
+                children: <Widget>[
+                  Text('Code postal : ' + args['location']['postalCode'] + '\n'),
+                ]
+
+            ),
+            Row(
+                children: <Widget>[
+                  Text('Ville : ' + args['location']['city'] + '\n'),
+                ]
+
+            ),
+
           ],
         ),
       ),

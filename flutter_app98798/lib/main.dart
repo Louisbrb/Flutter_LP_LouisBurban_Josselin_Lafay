@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_project/env.dart';
 import 'dart:convert';
+import 'package:flutter_project/SecondPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,11 +10,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: MyHomePage(title: 'Projet flutter'),
+        routes: {
+    '/second': (context) => SecondPage()
+    },
+        home: MyHomePage(title: 'Projet flutter'),
     );
   }
 }
@@ -105,10 +110,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                   return Container();
                 } else
-                if(snapshot.data['meta']['code'] == 200){
+                if(snapshot.error == null){
                   return Container(
                     color: Colors.grey[300],
-                    child: _ResultRecherche(snapshot.data['response']['name']),
+                    child: _ResultRecherche(snapshot.data['venues']),
                   );
                 } else if(snapshot.data['meta']['code'] == 400){
                   try{
@@ -162,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-  static Future<Map> QueryApi(String dest, String search) async {
+  static Future<Map<String, dynamic>> QueryApi(String dest, String search) async {
     String Query = "https://api.foursquare.com/v2/venues/search?client_id=$client&client_secret=$Secret"
         + "&near=$dest"
         + "&query=$search"
@@ -186,10 +191,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(13.0),
                   child: Row(
                     children: <Widget>[
+
                       Image(
+
                           image: NetworkImage(
-                              '${json[index]['venue']['categories'][0]['icon']['prefix']}bg_32${json[index]['venue']['categories'][0]['icon']['suffix']}')),
-                      Text(json[index]['venue']['name']),
+                              '${json[index]['name']}')),
+                      Text(json[index]['name']),
                     ],
                   ),
                 ),
